@@ -845,3 +845,34 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 .source-help summary { cursor: pointer; color: var(--pink-deep); }
 .sugar-insights a { color: var(--ink); }
 #source-breakdown { margin-top: .8rem; font-size: .85rem; }
+
+/* Compact dashboard: insights get full-width cards instead of a long sidebar. */
+.layout { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: stretch; }
+.layout > .picker { grid-column: span 5; }
+.layout > .log { grid-column: span 4; }
+.layout > .scale-panel { grid-column: span 3; position: static; }
+.layout > .sugar-insights { grid-column: span 6; margin-top: 0; border-top: 1.5px solid var(--line); padding: 1.25rem; }
+.layout > * { min-width: 0; }
+.treat-grid { max-height: 390px; }
+.log-list { max-height: 300px; }
+.scale-track { height: 260px; }
+#source-period { width: auto; max-width: 100%; margin-left: .5rem; }
+#source-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1.25rem; }
+.source-row { margin: .5rem 0; align-items: baseline; }
+.intake-tips { line-height: 1.45; }
+.source-label select { min-height: 36px; font-size: .78rem; padding: .35rem .5rem; }
+#health-profile { padding-top: .6rem; margin-top: .5rem; }
+#profile-form { gap: .65rem; }
+#profile-status:empty { display: none; }
+@media (max-width: 1000px) {
+  .layout > .picker { grid-column: span 12; }
+  .layout > .log { grid-column: span 8; }
+  .layout > .scale-panel { grid-column: span 4; }
+  .treat-grid { max-height: 280px; }
+}
+@media (max-width: 680px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+  .layout > .picker, .layout > .log, .layout > .scale-panel, .layout > .sugar-insights { grid-column: 1; }
+  .scale-track { height: 200px; }
+  #source-breakdown { grid-template-columns: 1fr; }
+}
