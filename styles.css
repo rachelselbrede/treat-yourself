@@ -198,7 +198,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
 .brand-mark { font-size: 2.6rem; line-height: 1; filter: drop-shadow(0 4px 6px rgba(240,110,169,.3)); }
 
 .site-header h1 { font-size: clamp(1.7rem, 3.4vw, 2.4rem); letter-spacing: -.01em; }
-.tagline { margin: .1rem 0 0; color: var(--ink-soft); font-size: .95rem; }
+.tagline { margin: .6rem 0 0; color: var(--ink-soft); font-size: .95rem; }
 
 .header-actions { display: flex; align-items: center; gap: .8rem; }
 .today-label { margin: 0; color: var(--ink-soft); font-size: .9rem; font-weight: 600; }
