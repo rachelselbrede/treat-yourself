@@ -302,6 +302,41 @@ button { font: inherit; cursor: pointer; }
   border-radius: 12px; background: var(--cream); color: var(--ink); width: 100%;
 }
 
+/* Health profile: use the same soft surfaces and rounded controls as the picker. */
+#profile-form { gap: 1rem; }
+#profile-form .field { min-width: 0; flex-basis: 16rem; }
+#profile-form .field.short { flex: 0 1 8rem; }
+#profile-form input,
+#profile-form select {
+  width: 100%; min-width: 0; min-height: 46px;
+  font: inherit; font-size: 1rem; line-height: 1.4;
+  padding: .65rem .85rem;
+  border: 1.5px solid var(--line); border-radius: var(--radius-sm);
+  background-color: var(--cream); color: var(--ink);
+}
+#profile-form select {
+  appearance: none; -webkit-appearance: none;
+  padding-right: 2.5rem; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--pink-deep) 50%),
+                    linear-gradient(135deg, var(--pink-deep) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%, calc(100% - 15px) 50%;
+  background-size: 5px 5px; background-repeat: no-repeat;
+}
+#profile-form select:hover { border-color: var(--pink); }
+#profile-form select:focus-visible,
+#profile-form input:focus-visible {
+  border-color: var(--pink-deep); outline: 3px solid var(--lilac); outline-offset: 2px;
+}
+#profile-form option { background: var(--card); color: var(--ink); }
+#profile-form button { min-height: 46px; }
+@media (max-width: 600px) {
+  #profile-form .field { flex: 1 1 100%; }
+  #profile-form .field.short { flex: 1 1 5rem; }
+}
+@media (forced-colors: active) {
+  #profile-form select { appearance: auto; background-image: none; }
+}
+
 /* ---------------- log ---------------- */
 
 .total-line { margin: 0 0 .9rem; display: flex; align-items: baseline; gap: .3rem; }
