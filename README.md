@@ -1,5 +1,9 @@
 # 🍭 Treat Yourself
 
+## 🌸 [👉 Try it live: rachelselbrede.github.io/treat-yourself](https://rachelselbrede.github.io/treat-yourself/) 🌸
+
+**No download needed.** Open the link on your phone or laptop and start tracking.
+
 A sweet little sugar tracker — built at the **UC Berkeley Women's Night Hackathon**.
 
 Pick the treats you've had today, watch the grams add up, and keep an eye on the
