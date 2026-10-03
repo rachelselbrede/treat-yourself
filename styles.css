@@ -893,3 +893,29 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 .purpose-banner strong, .purpose-banner a { color: var(--ink); }
 .purpose-evidence { border-left: 2px solid var(--pink); padding-left: 1rem; }
 @media (max-width: 680px) { .purpose-banner { grid-template-columns: 1fr; gap: .8rem; } }
+
+/* Separate daily logging from deeper insights and setup. */
+.app-views { position: relative; z-index: 1; padding-bottom: 2rem; }
+.page-tabs { display: flex; gap: .5rem; position: relative; z-index: 1; margin-bottom: 1.4rem; padding-bottom: .75rem; border-bottom: 1px solid var(--line); }
+.page-tabs button { flex: 0 1 auto; padding: .7rem 1.4rem; border: 1px solid transparent; border-radius: 999px; background: transparent; color: var(--ink-soft); font: inherit; font-weight: 700; cursor: pointer; }
+.page-tabs button[aria-selected="true"] { background: var(--tint); color: var(--ink); border-color: var(--pink); }
+.page-tabs button:hover { background: var(--card); color: var(--ink); }
+.app-views [hidden] { display: none !important; }
+.app-views .layout { padding-top: 0; gap: 1.5rem; }
+.insights-view { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.insights-view .sugar-insights { margin: 0; padding: 1.5rem; border-top-style: solid; }
+#view-profile { max-width: 900px; margin: 0 auto; }
+#health-profile { margin: 0; padding: 1.5rem; }
+#profile-form { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; }
+#profile-form .field:not(.short) { grid-column: span 3; }
+#profile-form button { justify-self: start; }
+#view-about .purpose-banner { margin: 0; padding: 2rem; gap: 2rem; }
+#view-about { max-width: 1000px; margin: 0 auto; }
+@media(max-width: 680px) {
+  .page-tabs { gap: .15rem; }
+  .page-tabs button { flex: 1; padding: .65rem .3rem; font-size: .82rem; }
+  .insights-view { grid-template-columns: 1fr; }
+  #profile-form { gap: .7rem; }
+  #profile-form button { grid-column: span 3; }
+  #view-about .purpose-banner { padding: 1.25rem; }
+}
