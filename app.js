@@ -106,6 +106,7 @@
     historyChart: $("history-chart"),
     historyAvg: $("history-avg"),
     toast: $("toast"),
+    shareBtn: $("share-btn"),
   };
 
   // ---------- helpers ----------
@@ -200,6 +201,7 @@
     el.scaleLimitLine.style.bottom = (100 / 1.25) + "%";
 
     el.scalePct.textContent = Math.round(pct);
+    if (window.Honey) Honey.setMood(pct);
     el.scaleZone.textContent = zone.label;
 
     el.scaleReadout.setAttribute("aria-valuenow", fmt(total));
@@ -277,7 +279,8 @@
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "treat-card";
-      btn.addEventListener("click", () => addTreat(treat));
+      btn.dataset.cat = treat.cat;
+      btn.addEventListener("click", () => addTreat(treat, btn));
 
       const emoji = document.createElement("span");
       emoji.className = "treat-emoji";
@@ -327,7 +330,7 @@
 
   // ---------- today's log ----------
 
-  function addTreat(treat) {
+  function addTreat(treat, sourceEl) {
     rolloverIfNeeded();
     entriesForToday().push({
       id: "e" + Date.now() + Math.random().toString(36).slice(2, 6),
@@ -341,6 +344,7 @@
     renderScale(true);
     renderHistory();
     toast(treat.emoji + "  " + treat.name + " · +" + fmt(treat.sugar) + " g");
+    if (window.Honey) Honey.celebrate(sourceEl, treat);
   }
 
   function removeEntry(id) {
@@ -451,6 +455,8 @@
     el.historyAvg.textContent = logged.length
       ? "Average on days you logged: " + fmt(days.reduce((s, d) => s + d.total, 0) / logged.length) + " g"
       : "Log a treat and your week starts filling in.";
+
+    if (window.Honey) Honey.renderStreak(state.days, state.limit, todayKey);
   }
 
   // ---------- custom treats ----------
@@ -620,6 +626,30 @@
       toast("Cleared today");
     });
 
+    if (el.shareBtn && window.Honey) {
+      el.shareBtn.addEventListener("click", async () => {
+        const total = totalForDay(currentDay);
+        el.shareBtn.disabled = true;
+        try {
+          await Honey.downloadShareCard({
+            total: fmt(total),
+            limit: fmt(state.limit),
+            pct: state.limit > 0 ? (total / state.limit) * 100 : 0,
+            dateLabel: el.todayLabel.textContent,
+            message: el.scaleMessage.textContent,
+            entries: entriesForToday().slice().sort((a, b) => a.t - b.t)
+              .map((e) => ({ emoji: e.emoji, name: e.name, sugar: fmt(e.sugar) })),
+          });
+          toast("Your sweet day card is ready 📸");
+        } catch (err) {
+          console.warn("Could not make the share card.", err);
+          toast("Couldn't make the card this time");
+        } finally {
+          el.shareBtn.disabled = false;
+        }
+      });
+    }
+
     // Catch a day change while the tab is left open overnight.
     setInterval(rolloverIfNeeded, 60 * 1000);
     document.addEventListener("visibilitychange", () => {
@@ -629,6 +659,7 @@
 
   // ---------- start ----------
 
+  if (window.Honey) Honey.fillBears();
   el.limitInput.value = state.limit;
   renderProfile();
   renderTodayLabel();

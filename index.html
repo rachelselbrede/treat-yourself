@@ -7,22 +7,29 @@
 <meta name="description" content="Pick your sweet treats, watch your daily sugar add up, and keep an eye on the sugar scale.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍬</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%2217%22 fill=%22%23e8c39e%22/%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%229%22 fill=%22%23f7a8bf%22/%3E%3Ccircle cx=%2290%22 cy=%2230%22 r=%2217%22 fill=%22%23e8c39e%22/%3E%3Ccircle cx=%2290%22 cy=%2230%22 r=%229%22 fill=%22%23f7a8bf%22/%3E%3Ccircle cx=%2260%22 cy=%2264%22 r=%2244%22 fill=%22%23efcfac%22/%3E%3Cg transform=%22translate(93 21) rotate(18)%22%3E%3Cpath d=%22M0 0 L-15 -9 Q-18 0 -15 9 Z%22 fill=%22%23ff7fa8%22/%3E%3Cpath d=%22M0 0 L15 -9 Q18 0 15 9 Z%22 fill=%22%23ff7fa8%22/%3E%3Ccircle r=%225%22 fill=%22%23ff5c93%22/%3E%3C/g%3E%3Cellipse cx=%2260%22 cy=%2280%22 rx=%2217%22 ry=%2213%22 fill=%22%23fbe8d4%22/%3E%3Cellipse cx=%2260%22 cy=%2274%22 rx=%225.5%22 ry=%224%22 fill=%22%236b3e2e%22/%3E%3Cpath d=%22M53 84 Q60 91 67 84%22 stroke=%22%236b3e2e%22 stroke-width=%223%22 fill=%22none%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2242%22 cy=%2260%22 r=%225.5%22 fill=%22%233b2420%22/%3E%3Ccircle cx=%2278%22 cy=%2260%22 r=%225.5%22 fill=%22%233b2420%22/%3E%3Cellipse cx=%2230%22 cy=%2277%22 rx=%228%22 ry=%225%22 fill=%22%23ff9fb8%22/%3E%3Cellipse cx=%2290%22 cy=%2277%22 rx=%228%22 ry=%225%22 fill=%22%23ff9fb8%22/%3E%3C/svg%3E">
+<meta name="theme-color" content="#ffd6e8"><text y='.9em' font-size='90'>🍬</text></svg>">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+<div class="sky" aria-hidden="true"><span style="--x:4%;--d:22s;--delay:-3s;--s:1.1rem">✦</span><span style="--x:14%;--d:28s;--delay:-12s;--s:0.9rem">♡</span><span style="--x:26%;--d:25s;--delay:-6s;--s:0.8rem">✧</span><span style="--x:38%;--d:31s;--delay:-18s;--s:1rem">♡</span><span style="--x:52%;--d:24s;--delay:-9s;--s:0.9rem">✦</span><span style="--x:63%;--d:29s;--delay:-21s;--s:1.2rem">♡</span><span style="--x:74%;--d:26s;--delay:-2s;--s:0.8rem">✧</span><span style="--x:85%;--d:33s;--delay:-15s;--s:1rem">✦</span><span style="--x:94%;--d:27s;--delay:-24s;--s:0.9rem">♡</span><span style="--x:46%;--d:35s;--delay:-28s;--s:0.7rem">✧</span></div>
 
 <a class="skip-link" href="#picker">Skip to treat picker</a>
 
 <header class="site-header">
   <div class="wrap header-inner">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">🍭</span>
+      <span class="brand-mark" id="mascot" data-bear="happy" aria-hidden="true"></span>
       <div>
         <h1>Treat Yourself</h1>
         <p class="tagline">A sweet little sugar tracker</p>
       </div>
+      <p class="streak-badge" id="streak-badge" hidden>
+        <span class="streak-crown" aria-hidden="true">👑</span>
+        <span><strong id="streak-num">0</strong> <span id="streak-word">days</span> sweet streak</span>
+      </p>
     </div>
     <div class="header-actions">
       <p class="today-label" id="today-label"></p>
@@ -108,7 +115,10 @@
   <section class="panel log" aria-labelledby="log-heading">
     <div class="panel-head">
       <h2 id="log-heading">Today's treats</h2>
-      <button class="ghost-btn danger" id="clear-day">Clear day</button>
+      <div class="head-btns">
+        <button class="ghost-btn" id="share-btn">📸 Share my day</button>
+        <button class="ghost-btn danger" id="clear-day">Clear day</button>
+      </div>
     </div>
 
     <p class="total-line">
@@ -117,7 +127,10 @@
     </p>
 
     <ul class="log-list" id="log-list"></ul>
-    <p class="empty-note" id="log-empty">Nothing yet today. Go on, pick something sweet. 🍪</p>
+    <div class="empty-note log-empty" id="log-empty">
+      <span class="peek-bear" data-bear="happy"></span>
+      <p>Nothing yet today. Go on, pick something sweet. 🍪</p>
+    </div>
 
     <section class="history" aria-labelledby="history-heading">
       <h3 id="history-heading">Last 7 days</h3>
@@ -131,10 +144,19 @@
     <h2 id="scale-heading">The sugar scale</h2>
 
     <div class="scale" id="scale">
+      <div class="jar-row">
+      <div class="jar">
+      <div class="jar-lid" aria-hidden="true"></div>
       <div class="scale-track">
-        <div class="scale-fill" id="scale-fill"></div>
+        <div class="scale-fill" id="scale-fill">
+          <span class="wave" aria-hidden="true"></span>
+          <span class="jar-sprinkles" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+        </div>
         <div class="scale-limit-line" id="scale-limit-line"><span>goal</span></div>
         <div class="scale-ticks" id="scale-ticks" aria-hidden="true"></div>
+      </div>
+      </div>
+      <div class="scale-bear" id="scale-bear"></div>
       </div>
       <div class="scale-readout"
            role="progressbar"
@@ -166,6 +188,7 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="treats.js"></script>
+<script src="mascot.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
