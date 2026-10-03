@@ -876,3 +876,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
   .scale-track { height: 200px; }
   #source-breakdown { grid-template-columns: 1fr; }
 }
+
+.purpose-banner { display: grid; grid-template-columns: 1.3fr 1fr; gap: 1.5rem; padding: 1rem 1.25rem; margin-bottom: 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--radius); }
+.purpose-banner h2 { font-size: 1.1rem; margin: 0 0 .4rem; }
+.purpose-banner p { font-size: .86rem; line-height: 1.5; color: var(--ink-soft); margin: 0; }
+.purpose-banner strong, .purpose-banner a { color: var(--ink); }
+.purpose-evidence { border-left: 2px solid var(--pink); padding-left: 1rem; }
+@media (max-width: 680px) { .purpose-banner { grid-template-columns: 1fr; gap: .8rem; } }
