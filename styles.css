@@ -830,3 +830,18 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* Intake guidance and source labels use the existing palette. */
+.sugar-insights { margin-top: 1.3rem; padding-top: 1rem; border-top: 1.5px dashed var(--line); text-align: left; }
+.sugar-insights h3 { margin: 0 0 .6rem; }
+.intake-tips { padding-left: 1.15rem; font-size: .88rem; line-height: 1.5; }
+.intake-tips li + li { margin-top: .6rem; }
+.source-select { font: inherit; font-size: .85rem; width: 100%; min-width: 0; min-height: 44px; padding: .5rem .6rem; border: 1.5px solid var(--line); border-radius: 12px; background: var(--cream); color: var(--ink); }
+.source-label { display: block; margin-top: .4rem; color: var(--ink-soft); font-size: .75rem; }
+.source-label select { display: block; margin-top: .2rem; }
+.source-row { display: flex; justify-content: space-between; gap: .7rem; font-size: .82rem; padding-bottom: .5rem; border-bottom: 1px solid var(--line); }
+.source-row strong { white-space: nowrap; }
+.source-help { font-size: .82rem; margin-top: .7rem; }
+.source-help summary { cursor: pointer; color: var(--pink-deep); }
+.sugar-insights a { color: var(--ink); }
+#source-breakdown { margin-top: .8rem; font-size: .85rem; }

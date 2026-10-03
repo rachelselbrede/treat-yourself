@@ -105,6 +105,7 @@
           <label for="custom-emoji">Emoji</label>
           <input type="text" id="custom-emoji" maxlength="4" placeholder="🍋">
         </div>
+        <div class="field"><label for="custom-source">Sugar source</label><select id="custom-source" class="source-select"></select></div>
         <button type="submit" class="primary-btn">Save treat</button>
       </form>
       <p class="settings-note">Saved treats stay in this browser and show up in the “Yours” category.</p>
@@ -170,6 +171,20 @@
 
     <p class="scale-message" id="scale-message">A brand new day of sweetness. 🌸</p>
     <p class="scale-remaining" id="scale-remaining"></p>
+    <section class="sugar-insights" aria-labelledby="tips-heading">
+      <h3 id="tips-heading">A little guidance</h3>
+      <p id="intake-summary" class="settings-note" aria-live="polite"></p>
+      <ul id="intake-tips" class="intake-tips"></ul>
+      <p class="settings-note">Based on logged estimates and your chosen goal, not a complete dietary assessment. <a href="https://www.cdc.gov/healthy-weight-growth/rethink-your-drink/" target="_blank" rel="noopener">Drink-swap guidance</a></p>
+    </section>
+    <section class="sugar-insights" aria-labelledby="sources-heading">
+      <h3 id="sources-heading">Your sugar sources</h3>
+      <label for="source-period" class="settings-note">Show</label>
+      <select id="source-period" class="source-select"><option value="today">Today</option><option value="week">Last 7 days</option></select>
+      <div id="source-breakdown" aria-live="polite"></div>
+      <p class="settings-note">Choose a source on each logged treat using its ingredients. Amounts group each food’s logged sugar by your selection; they do not measure individual sugar molecules. Use “Mixed” when a food contains more than one source.</p>
+      <details class="source-help"><summary>What do these types mean?</summary><p class="settings-note">Refined added: table sugar, cane sugar, dextrose, or corn syrup. Honey, maple, and agave are added sugars too. Naturally occurring: sugar within plain fruit or milk. “Processed” is not a separate sugar type. Ingredients identify sources, but usually cannot tell you the grams of each. Presets and older logs start as unknown.</p><a href="https://www.fda.gov/food/nutrition-facts-label/added-sugars-nutrition-facts-label" target="_blank" rel="noopener">FDA sugar-label guide</a></details>
+    </section>
   </section>
 
 </main>

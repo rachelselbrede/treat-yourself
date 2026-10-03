@@ -337,6 +337,7 @@
       name: treat.name,
       emoji: treat.emoji || "🍬",
       sugar: Number(treat.sugar),
+      source: sugarSource(treat.source),
       t: Date.now(),
     });
     save();
@@ -360,6 +361,7 @@
   }
 
   function renderLog() {
+    renderInsights();
     const list = entriesForToday().slice().sort((a, b) => b.t - a.t);
     const total = totalForDay(currentDay);
 
@@ -391,7 +393,21 @@
         minute: "2-digit",
       });
 
-      body.append(name, time);
+      const sourceLabel = document.createElement("label");
+      sourceLabel.className = "source-label";
+      sourceLabel.textContent = "Sugar source";
+      const sourceSelect = document.createElement("select");
+      sourceSelect.className = "source-select";
+      sourceSelect.setAttribute("aria-label", "Sugar source for " + entry.name);
+      populateSources(sourceSelect, entry.source);
+      sourceSelect.addEventListener("change", () => {
+        entry.source = sugarSource(sourceSelect.value);
+        const stored = save();
+        renderInsights();
+        if (!stored) toast("Source updated for this session; browser storage is unavailable.");
+      });
+      sourceLabel.appendChild(sourceSelect);
+      body.append(name, time, sourceLabel);
 
       const sugar = document.createElement("span");
       sugar.className = "log-sugar";
@@ -472,6 +488,7 @@
       name: name.slice(0, 40),
       emoji: el.customEmoji.value.trim() || "🍬",
       sugar: round(sugar),
+      source: sugarSource($("custom-source").value),
       serving: "your treat",
     });
     save();
@@ -515,6 +532,88 @@
       weekday: "long",
       month: "short",
       day: "numeric",
+    });
+  }
+
+  // Sources are user-labelled: names and total grams cannot identify exact sugar composition.
+  const SUGAR_SOURCES = {
+    unknown: "Unknown / not checked",
+    refined: "Refined added sugar",
+    syrup: "Honey / maple / agave",
+    natural: "Naturally occurring",
+    mixed: "Mixed sources",
+  };
+
+  function sugarSource(value) {
+    return Object.prototype.hasOwnProperty.call(SUGAR_SOURCES, value) ? value : "unknown";
+  }
+
+  function populateSources(select, selected) {
+    select.replaceChildren();
+    Object.entries(SUGAR_SOURCES).forEach(([value, label]) => {
+      const option = document.createElement("option");
+      option.value = value; option.textContent = label;
+      select.appendChild(option);
+    });
+    select.value = sugarSource(selected);
+  }
+
+  function sourceTotals(entries) {
+    const totals = Object.fromEntries(Object.keys(SUGAR_SOURCES).map(key => [key, 0]));
+    entries.forEach(entry => {
+      const grams = Number(entry.sugar);
+      if (Number.isFinite(grams) && grams >= 0) totals[sugarSource(entry.source)] += grams;
+    });
+    return totals;
+  }
+
+  function intakeAdvice(entries, limit, profile) {
+    const total = entries.reduce((sum, entry) => sum + Math.max(0, Number(entry.sugar) || 0), 0);
+    const ratio = total / limit;
+    const summary = !entries.length ? "Log a treat to see guidance for today."
+      : fmt(total) + " g logged · " + Math.round(ratio * 100) + "% of your chosen " + fmt(limit) + " g goal.";
+    const tips = [];
+    if (!entries.length) tips.push("Start by checking the serving size and added-sugar line on one food label.");
+    else if (ratio >= 1) tips.push("You’ve reached your chosen goal. For your next drink, try water or unsweetened tea. Keep your usual meals; this is not a reason to skip food.");
+    else if (ratio >= 0.75) tips.push("You’re nearing your chosen goal. Try less syrup in your next drink or compare added sugar on similar snacks.");
+    else tips.push("You’re below your chosen goal so far. You don’t need to eat more sugar to reach it; focus on choices you enjoy.");
+    const groups = new Map();
+    entries.forEach(entry => {
+      const key = String(entry.name || "Treat");
+      groups.set(key, (groups.get(key) || 0) + Math.max(0, Number(entry.sugar) || 0));
+    });
+    const largest = [...groups].sort((x, y) => y[1] - x[1])[0];
+    if (largest && largest[1] > 0) {
+      const swap = /soda|tea|coffee|latte|boba|lemonade|drink|frappuccino|milkshake/i.test(largest[0])
+        ? "Next time, try an unsweetened version or ask for less syrup."
+        : "Next time, compare labels or choose a portion that suits you.";
+      tips.push(largest[0] + " accounts for " + fmt(largest[1]) + " g of today’s logged sugar. " + swap);
+    }
+    if (profile && ["type1", "type2", "gestational"].includes(profile.diabetes)) {
+      tips.push("With diabetes, total carbohydrates matter too. This sugar log cannot predict blood glucose or guide medication. Follow your care team’s meal and low-blood-sugar treatment plan.");
+    } else if (profile && profile.diabetes === "prediabetes") {
+      tips.push("For prediabetes, consider unsweetened drinks and fiber-rich foods. Your care team can help set personal nutrition goals.");
+    }
+    return { summary, tips };
+  }
+
+  function renderInsights() {
+    const advice = intakeAdvice(entriesForToday(), state.limit, state.profile);
+    $("intake-summary").textContent = advice.summary;
+    const tips = advice.tips.map(text => { const li = document.createElement("li"); li.textContent = text; return li; });
+    $("intake-tips").replaceChildren(...tips);
+    const keys = $("source-period").value === "week" ? Array.from({ length: 7 }, (_, index) => {
+      const d = new Date(); d.setDate(d.getDate() - index); return todayKey(d);
+    }) : [currentDay];
+    const entries = keys.flatMap(key => state.days[key] || []);
+    const totals = sourceTotals(entries);
+    const box = $("source-breakdown"); box.replaceChildren();
+    if (!entries.length) { box.textContent = "No treats logged in this period yet."; return; }
+    Object.entries(SUGAR_SOURCES).forEach(([key, label]) => {
+      const row = document.createElement("p"); row.className = "source-row";
+      const name = document.createElement("span"); name.textContent = label;
+      const grams = document.createElement("strong"); grams.textContent = fmt(totals[key]) + " g";
+      row.append(name, grams); box.appendChild(row);
     });
   }
 
@@ -563,6 +662,7 @@
     $("profile-status").textContent = save()
       ? "Health profile saved in this browser."
       : "Profile updated for this session, but browser storage is unavailable. It will not persist after reload.";
+    renderInsights();
   }
 
   // ---------- settings ----------
@@ -585,11 +685,13 @@
   }
 
   function wireUp() {
+    $("source-period").addEventListener("change", () => { rolloverIfNeeded(); renderInsights(); });
     $("profile-form").addEventListener("submit", saveProfile);
     $("profile-clear").addEventListener("click", () => {
       state.profile = null;
       const stored = save();
       renderProfile();
+      renderInsights();
       $("profile-status").textContent = stored ? "Health profile cleared." : "Cleared for this session, but saved browser data could not be updated.";
     });
     el.settingsBtn.addEventListener("click", () => {
@@ -660,6 +762,7 @@
   // ---------- start ----------
 
   if (window.Honey) Honey.fillBears();
+  populateSources($("custom-source"), "unknown");
   el.limitInput.value = state.limit;
   renderProfile();
   renderTodayLabel();
