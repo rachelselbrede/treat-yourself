@@ -66,7 +66,7 @@
   <button id="tab-today" role="tab" aria-selected="true" aria-controls="view-today" tabindex="0">Today</button>
   <button id="tab-insights" role="tab" aria-selected="false" aria-controls="view-insights" tabindex="-1">Insights</button>
   <button id="tab-profile" role="tab" aria-selected="false" aria-controls="view-profile" tabindex="-1">Health profile</button>
-  <button id="tab-about" role="tab" aria-selected="false" aria-controls="view-about" tabindex="-1">About</button>
+  <button id="tab-about" role="tab" aria-selected="false" aria-controls="view-about" tabindex="-1">About &amp; info</button>
 </nav>
 <main class="wrap app-views">
 <div class="layout" id="view-today" role="tabpanel" aria-labelledby="tab-today">
@@ -208,7 +208,24 @@
     <div><h2 id="purpose-heading">A little awareness, a healthier routine.</h2>
     <p>Treat Yourself was built with people managing sugar intake, prediabetes, diabetes, or other health concerns in mind. Notice your patterns, explore small swaps, and bring a clearer picture of your habits to conversations with your care team.</p></div>
     <p class="purpose-evidence">A 2015 research review found that each additional daily serving of a sugary drink was associated with <strong>13% higher relative risk of type 2 diabetes</strong>, after adjusting for body fat. This is an association, not proof of cause or a prediction of your personal risk. <a href="https://www.bmj.com/content/351/bmj.h3576" target="_blank" rel="noopener">Read the study ↗</a></p>
-  </section></div>
+  </section>
+  <section class="panel sugar-glossary" aria-labelledby="glossary-heading">
+    <h2 id="glossary-heading">A little sugar glossary</h2>
+    <p class="settings-note">Simple definitions to help you read labels and choose a source for your log.</p>
+    <dl class="glossary-grid">
+      <div><dt>Added sugar</dt><dd>Sugar or sweeteners added during preparation or manufacturing, such as sugar stirred into coffee. Honey and syrups count too.</dd></div>
+      <div><dt>Refined sugar</dt><dd>Sugar extracted and purified from a source such as sugar cane or sugar beets. White table sugar is a familiar example. In this tracker, “refined added” also groups sweeteners such as dextrose and corn syrup.</dd></div>
+      <div><dt>“Processed sugar”</dt><dd>An informal phrase, not a separate category on the Nutrition Facts label. Processing describes how a food is made; check its ingredients and added-sugar amount rather than relying on this term.</dd></div>
+      <div><dt>Naturally occurring sugar</dt><dd>Sugar already present in a food, such as fructose in fruit or lactose in plain milk. “Natural” does not mean sugar-free.</dd></div>
+      <div><dt>Honey, maple &amp; agave</dt><dd>These sweeteners still count as added sugars. Swapping table sugar for one of them does not automatically reduce the amount of sugar you eat.</dd></div>
+      <div><dt>Total sugar</dt><dd>Naturally occurring sugar plus added sugar. Example: 12 g total sugar with 5 g added sugar means the other 7 g is naturally occurring—not 17 g altogether.</dd></div>
+      <div><dt>Mixed sources</dt><dd>A food containing more than one sugar source, such as sweetened yogurt with milk sugar and added table sugar. Choose this when one source label would be misleading.</dd></div>
+      <div><dt>Unknown / not checked</dt><dd>You have not checked the ingredients, or there is not enough information to identify a source. Unknown does not mean zero sugar.</dd></div>
+    </dl>
+    <p class="settings-note">The tracker’s source groups describe your selections, not laboratory measurements. An ingredient list usually cannot tell you the grams of each sugar source.</p>
+    <p class="glossary-sources">Learn more: <a href="https://www.fda.gov/food/nutrition-facts-label/added-sugars-nutrition-facts-label" target="_blank" rel="noopener">FDA · Total and added sugars</a> · <a href="https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/sugar/sugar-101" target="_blank" rel="noopener">AHA · Sugar 101</a> · <a href="https://www.heart.org/en/healthy-living/healthy-eating/eat-smart/nutrition-basics/processed-foods" target="_blank" rel="noopener">AHA · Processed foods</a></p>
+  </section>
+</div>
 </main>
 
 <footer class="site-footer wrap">

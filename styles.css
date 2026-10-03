@@ -919,3 +919,12 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing:
   #profile-form button { grid-column: span 3; }
   #view-about .purpose-banner { padding: 1.25rem; }
 }
+
+.sugar-glossary { margin-top: 1.5rem; padding: 1.5rem; }
+.glossary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 2rem; margin: 1.25rem 0; }
+.glossary-grid > div { border-top: 1px solid var(--line); padding-top: .8rem; }
+.glossary-grid dt { font-weight: 800; color: var(--ink); margin-bottom: .35rem; }
+.glossary-grid dd { margin: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.55; }
+.glossary-sources { font-size: .8rem; line-height: 1.7; }
+.glossary-sources a { color: var(--ink); }
+@media(max-width: 680px) { .glossary-grid { grid-template-columns: 1fr; gap: 1rem; } }
