@@ -22,7 +22,7 @@
   }
 
   function blankState() {
-    return { limit: DEFAULT_LIMIT, days: {}, custom: [] };
+    return { limit: DEFAULT_LIMIT, days: {}, custom: [], profile: null };
   }
 
   function load() {
@@ -34,6 +34,7 @@
         limit: Number(parsed.limit) > 0 ? Number(parsed.limit) : DEFAULT_LIMIT,
         days: parsed.days && typeof parsed.days === "object" ? parsed.days : {},
         custom: Array.isArray(parsed.custom) ? parsed.custom : [],
+        profile: normalizeProfile(parsed.profile),
       };
     } catch (err) {
       console.warn("Could not read saved data, starting fresh.", err);
@@ -47,8 +48,10 @@
     while (keys.length > KEEP_DAYS) delete state.days[keys.shift()];
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      return true;
     } catch (err) {
       console.warn("Could not save. Private browsing?", err);
+      return false;
     }
   }
 
@@ -509,6 +512,53 @@
     });
   }
 
+  // ---------- optional health profile ----------
+  function normalizeProfile(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+    const age = value.age == null || value.age === "" ? null : Number(value.age);
+    const weight = value.weight == null || value.weight === "" ? null : Number(value.weight);
+    const histories = ["", "none", "prediabetes", "type1", "type2", "gestational", "past-gestational"];
+    return {
+      age: Number.isInteger(age) && age >= 1 && age <= 120 ? age : null,
+      weight: Number.isFinite(weight) && weight > 0 && weight <= 1500 ? weight : null,
+      weightUnit: value.weightUnit === "lb" ? "lb" : "kg",
+      diabetes: histories.includes(value.diabetes) ? value.diabetes : "",
+      familyHistory: ["yes", "no"].includes(value.familyHistory) ? value.familyHistory : "",
+    };
+  }
+
+  function renderProfile() {
+    const profile = state.profile || {};
+    $("profile-age").value = profile.age ?? "";
+    $("profile-weight").value = profile.weight ?? "";
+    $("profile-unit").value = profile.weightUnit || "kg";
+    $("profile-diabetes").value = profile.diabetes || "";
+    $("profile-family").value = profile.familyHistory || "";
+  }
+
+  function saveProfile(event) {
+    event.preventDefault();
+    const ageText = $("profile-age").value.trim();
+    const weightText = $("profile-weight").value.trim();
+    const age = ageText === "" ? null : Number(ageText);
+    const weight = weightText === "" ? null : Number(weightText);
+    if (ageText !== "" && (!Number.isInteger(age) || age < 1 || age > 120)) {
+      $("profile-status").textContent = "Enter an age from 1 to 120, or leave it blank.";
+      $("profile-age").focus();
+      return;
+    }
+    if (weightText !== "" && (!Number.isFinite(weight) || weight <= 0 || weight > 1500)) {
+      $("profile-status").textContent = "Enter a weight above 0 and at most 1500, or leave it blank.";
+      $("profile-weight").focus();
+      return;
+    }
+    state.profile = normalizeProfile({ age, weight, weightUnit: $("profile-unit").value,
+      diabetes: $("profile-diabetes").value, familyHistory: $("profile-family").value });
+    $("profile-status").textContent = save()
+      ? "Health profile saved in this browser."
+      : "Profile updated for this session, but browser storage is unavailable. It will not persist after reload.";
+  }
+
   // ---------- settings ----------
 
   function setLimit(value) {
@@ -529,6 +579,13 @@
   }
 
   function wireUp() {
+    $("profile-form").addEventListener("submit", saveProfile);
+    $("profile-clear").addEventListener("click", () => {
+      state.profile = null;
+      const stored = save();
+      renderProfile();
+      $("profile-status").textContent = stored ? "Health profile cleared." : "Cleared for this session, but saved browser data could not be updated.";
+    });
     el.settingsBtn.addEventListener("click", () => {
       const open = el.settingsPanel.hidden;
       el.settingsPanel.hidden = !open;
@@ -573,6 +630,7 @@
   // ---------- start ----------
 
   el.limitInput.value = state.limit;
+  renderProfile();
   renderTodayLabel();
   renderCategories();
   renderTreats();
