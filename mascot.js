@@ -13,68 +13,78 @@
   const EYES = {
     happy:
       '<g class="bear-eyes">' +
-      '<circle cx="47" cy="48" r="3.6" fill="#3b2420"/><circle cx="48.2" cy="46.8" r="1.2" fill="#fff"/>' +
-      '<circle cx="73" cy="48" r="3.6" fill="#3b2420"/><circle cx="74.2" cy="46.8" r="1.2" fill="#fff"/></g>',
+      '<circle cx="50" cy="44" r="3.2" fill="#3b2420"/><circle cx="51" cy="43" r="1.1" fill="#fff"/>' +
+      '<circle cx="70" cy="44" r="3.2" fill="#3b2420"/><circle cx="71" cy="43" r="1.1" fill="#fff"/></g>',
     content:
-      '<g fill="none" stroke="#3b2420" stroke-width="2.6" stroke-linecap="round">' +
-      '<path d="M43 49 Q47 44.5 51 49"/><path d="M69 49 Q73 44.5 77 49"/></g>',
+      '<g fill="none" stroke="#3b2420" stroke-width="2.4" stroke-linecap="round">' +
+      '<path d="M46.5 45 Q50 41 53.5 45"/><path d="M66.5 45 Q70 41 73.5 45"/></g>',
     ohmy:
       '<g class="bear-eyes">' +
-      '<circle cx="47" cy="48" r="4.6" fill="#3b2420"/><circle cx="48.6" cy="46.4" r="1.6" fill="#fff"/><circle cx="45.6" cy="49.8" r=".8" fill="#fff"/>' +
-      '<circle cx="73" cy="48" r="4.6" fill="#3b2420"/><circle cx="74.6" cy="46.4" r="1.6" fill="#fff"/><circle cx="71.6" cy="49.8" r=".8" fill="#fff"/></g>' +
-      '<g fill="none" stroke="#a87858" stroke-width="2" stroke-linecap="round">' +
-      '<path d="M42 39 Q46 36 50 38"/><path d="M70 38 Q74 36 78 39"/></g>',
+      '<circle cx="50" cy="44" r="4" fill="#3b2420"/><circle cx="51.4" cy="42.6" r="1.4" fill="#fff"/>' +
+      '<circle cx="70" cy="44" r="4" fill="#3b2420"/><circle cx="71.4" cy="42.6" r="1.4" fill="#fff"/></g>' +
+      '<g fill="none" stroke="#a87858" stroke-width="1.8" stroke-linecap="round">' +
+      '<path d="M46 36 Q49.5 33.5 53 35"/><path d="M67 35 Q70.5 33.5 74 36"/></g>',
     sleepy:
-      '<g fill="none" stroke="#3b2420" stroke-width="2.6" stroke-linecap="round">' +
-      '<path d="M43 47 Q47 51 51 47"/><path d="M69 47 Q73 51 77 47"/></g>',
+      '<g fill="none" stroke="#3b2420" stroke-width="2.4" stroke-linecap="round">' +
+      '<path d="M46.5 43 Q50 47 53.5 43"/><path d="M66.5 43 Q70 47 73.5 43"/></g>',
   };
 
   const MOUTH = {
-    happy: '<path d="M53.5 64 Q60 73 66.5 64 Z" fill="#e0607e" stroke="#6b3e2e" stroke-width="1.6" stroke-linejoin="round"/>',
-    content: '<path d="M55 65 Q60 70 65 65" stroke="#6b3e2e" stroke-width="2" fill="none" stroke-linecap="round"/>',
-    ohmy: '<ellipse cx="60" cy="67" rx="3.2" ry="3.8" fill="#e0607e" stroke="#6b3e2e" stroke-width="1.4"/>',
+    happy: '<path d="M55 57 Q60 64 65 57 Z" fill="#e0607e" stroke="#6b3e2e" stroke-width="1.4" stroke-linejoin="round"/>',
+    content: '<path d="M56 58 Q60 62 64 58" stroke="#6b3e2e" stroke-width="1.8" fill="none" stroke-linecap="round"/>',
+    ohmy: '<ellipse cx="60" cy="59.5" rx="2.6" ry="3.2" fill="#e0607e" stroke="#6b3e2e" stroke-width="1.2"/>',
     sleepy:
-      '<path d="M56 65.5 Q60 68.5 64 65.5" stroke="#6b3e2e" stroke-width="2" fill="none" stroke-linecap="round"/>' +
+      '<path d="M57 58 Q60 60.5 63 58" stroke="#6b3e2e" stroke-width="1.8" fill="none" stroke-linecap="round"/>' +
       '<g class="bear-z" fill="#a993e0" font-family="Fredoka, sans-serif" font-weight="700">' +
-      '<text x="96" y="66" font-size="12">z</text><text x="105" y="56" font-size="9">z</text></g>',
+      '<text x="14" y="34" font-size="12">z</text><text x="6" y="24" font-size="9">z</text></g>',
   };
+
+  // Little toe beans on the bottom of each foot.
+  function paw(cx, cy) {
+    return (
+      '<ellipse cx="' + cx + '" cy="' + (cy + 1) + '" rx="4.2" ry="3.4" fill="#f7a8bf"/>' +
+      '<circle cx="' + (cx - 4) + '" cy="' + (cy - 3.5) + '" r="1.6" fill="#f7a8bf"/>' +
+      '<circle cx="' + cx + '" cy="' + (cy - 5) + '" r="1.6" fill="#f7a8bf"/>' +
+      '<circle cx="' + (cx + 4) + '" cy="' + (cy - 3.5) + '" r="1.6" fill="#f7a8bf"/>'
+    );
+  }
 
   function bearSVG(mood, label) {
     mood = EYES[mood] ? mood : "happy";
     const a11y = label
       ? 'role="img" aria-label="' + label + '"'
       : 'aria-hidden="true" focusable="false"';
+    const blush = mood === "ohmy" ? 6.2 : 5;
     return (
       '<svg class="bear bear--' + mood + '" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" ' + a11y + ">" +
-      // ears
-      '<circle cx="30" cy="28" r="15" fill="#e8c39e"/><circle cx="30" cy="28" r="8" fill="#f7a8bf"/>' +
-      '<circle cx="90" cy="28" r="15" fill="#e8c39e"/><circle cx="90" cy="28" r="8" fill="#f7a8bf"/>' +
-      // body + head
-      '<ellipse cx="60" cy="96" rx="30" ry="22" fill="#e8c39e"/>' +
-      '<circle cx="60" cy="52" r="32" fill="#efcfac"/>' +
+      // sitting body + tummy
+      '<ellipse cx="60" cy="90" rx="25" ry="21" fill="#e8c39e"/><ellipse cx="60" cy="93" rx="14" ry="13" fill="#fbe8d4"/>' +
+      // feet out front
+      '<ellipse cx="38" cy="108" rx="11" ry="9" fill="#e8c39e"/>' + paw(38, 109) +
+      '<ellipse cx="82" cy="108" rx="11" ry="9" fill="#e8c39e"/>' + paw(82, 109) +
+      // lollipop
+      '<line x1="88" y1="90" x2="100" y2="66" stroke="#d7a6bd" stroke-width="2.6" stroke-linecap="round"/>' +
+      '<circle cx="102" cy="60" r="10" fill="#ff9ec4"/>' +
+      '<path d="M102 60 m0 -5.5 a5.5 5.5 0 1 1 -5 8 a3.5 3.5 0 1 1 5 -5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/>' +
+      // arms, one holding the stick
+      '<line x1="43" y1="78" x2="38" y2="93" stroke="#e8c39e" stroke-width="11" stroke-linecap="round"/>' +
+      '<line x1="77" y1="78" x2="88" y2="88" stroke="#e8c39e" stroke-width="11" stroke-linecap="round"/>' +
+      // ears + head
+      '<circle cx="38" cy="24" r="10" fill="#e8c39e"/><circle cx="38" cy="24" r="5.5" fill="#f7a8bf"/>' +
+      '<circle cx="82" cy="24" r="10" fill="#e8c39e"/><circle cx="82" cy="24" r="5.5" fill="#f7a8bf"/>' +
+      '<circle cx="60" cy="46" r="26" fill="#efcfac"/>' +
       // bow on her right ear
-      '<g transform="translate(92 20) rotate(18)">' +
-      '<path d="M0 0 L-13 -8 Q-16 0 -13 8 Z" fill="#ff7fa8"/><path d="M0 0 L13 -8 Q16 0 13 8 Z" fill="#ff7fa8"/>' +
-      '<circle r="4" fill="#ff5c93"/></g>' +
+      '<g transform="translate(84 18) rotate(18)">' +
+      '<path d="M0 0 L-11 -7 Q-13.5 0 -11 7 Z" fill="#ff7fa8"/><path d="M0 0 L11 -7 Q13.5 0 11 7 Z" fill="#ff7fa8"/>' +
+      '<circle r="3.4" fill="#ff5c93"/></g>' +
       // muzzle + nose
-      '<ellipse cx="60" cy="63" rx="13" ry="10" fill="#fbe8d4"/>' +
-      '<ellipse cx="60" cy="58" rx="4" ry="3" fill="#6b3e2e"/>' +
+      '<ellipse cx="60" cy="55" rx="11" ry="8.5" fill="#fbe8d4"/>' +
+      '<ellipse cx="60" cy="51.5" rx="3.6" ry="2.7" fill="#6b3e2e"/>' +
       MOUTH[mood] +
       EYES[mood] +
       // blush
-      '<ellipse cx="38" cy="60" rx="' + (mood === "ohmy" ? 7.5 : 6) + '" ry="3.6" fill="#ff9fb8" opacity=".75"/>' +
-      '<ellipse cx="82" cy="60" rx="' + (mood === "ohmy" ? 7.5 : 6) + '" ry="3.6" fill="#ff9fb8" opacity=".75"/>' +
-      // cupcake
-      '<g transform="translate(9 17) scale(.85)">' +
-      '<path d="M47 92 L73 92 L69 112 L51 112 Z" fill="#c9b6f2"/>' +
-      '<path d="M52 92 L54 112 M60 92 L60 112 M68 92 L66 112" stroke="#a993e0" stroke-width="1.5"/>' +
-      '<path d="M44 93 Q44 80 52 80 Q54 72 60 74 Q66 72 68 80 Q76 80 76 93 Z" fill="#ffb3cc"/>' +
-      '<circle cx="60" cy="72" r="4" fill="#ff4f7b"/><circle cx="58.6" cy="70.6" r="1.2" fill="#fff" opacity=".8"/>' +
-      '<g stroke-width="2" stroke-linecap="round">' +
-      '<path d="M52 85 l3 -1" stroke="#7fd8be"/><path d="M63 83 l2 2" stroke="#ffd65c"/>' +
-      '<path d="M68 88 l3 0" stroke="#9ec9ff"/><path d="M56 89 l1 2" stroke="#ffd65c"/></g></g>' +
-      // paws hugging it
-      '<ellipse cx="42" cy="96" rx="8" ry="7" fill="#e8c39e"/><ellipse cx="78" cy="96" rx="8" ry="7" fill="#e8c39e"/>' +
+      '<ellipse cx="42" cy="53" rx="' + blush + '" ry="3" fill="#ff9fb8" opacity=".75"/>' +
+      '<ellipse cx="78" cy="53" rx="' + blush + '" ry="3" fill="#ff9fb8" opacity=".75"/>' +
       "</svg>"
     );
   }
