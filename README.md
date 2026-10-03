@@ -6,6 +6,15 @@
 
 A sweet little sugar tracker — built at the **UC Berkeley Women's Night Hackathon**.
 
+## Why we built this
+
+Added sugar sneaks into a lot of what we eat, and most of us have no idea how
+much it adds up to in a day. The American Heart Association suggests about 25 g
+for women, and one boba can be most of that. We wanted a way to notice it that
+feels like a cozy journal instead of a diet app: no calorie shaming, no red
+warnings, just Honey the bear, a candy jar that fills up, and kind words either
+way. Awareness, not guilt. 🍓
+
 Pick the treats you've had today, watch the grams add up, and keep an eye on the
 sugar scale on the right as you get closer to your daily goal.
 
@@ -21,6 +30,11 @@ sugar scale on the right as you get closer to your daily goal.
   and a readout showing the percentage and how much room is left.
 - **Adjustable goal** — defaults to 25 g (the American Heart Association's suggestion
   for women); one tap for 25 / 36 / 50 g, or type your own.
+- **Honey the bear** — our original mascot. She waves when you add a treat,
+  her face changes with the jar (happy, content, "oh my!", and sleepy), and
+  she peeks out when today's log is empty.
+- **Sweet streak** — days in a row within your goal, with a little crown.
+- **Share my day** — makes a cute card of today's treats to download or share.
 - **Daily reset + 7-day history** — the day rolls over at midnight on its own, and the
   last week shows up as a little bar chart with your logging average.
 
@@ -52,6 +66,7 @@ there isn't one. Clearing site data clears your history.
 | `styles.css` | All the pastel |
 | `treats.js` | The preset treat library and sugar values |
 | `app.js` | State, rendering, the scale, storage |
+| `mascot.js` | Honey the bear, confetti, streak, share card |
 
 ## A note on the numbers
 
