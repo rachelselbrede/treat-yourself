@@ -103,6 +103,7 @@
     scaleZone: $("scale-zone"),
     scaleMessage: $("scale-message"),
     scaleRemaining: $("scale-remaining"),
+    scaleKeyLimit: $("scale-key-limit"),
     historyChart: $("history-chart"),
     historyAvg: $("history-avg"),
     toast: $("toast"),
@@ -203,6 +204,7 @@
     el.scalePct.textContent = Math.round(pct);
     if (window.Honey) Honey.setMood(pct);
     el.scaleZone.textContent = zone.label;
+    el.scaleKeyLimit.textContent = fmt(limit);
 
     el.scaleReadout.setAttribute("aria-valuenow", fmt(total));
     el.scaleReadout.setAttribute("aria-valuemax", fmt(limit));

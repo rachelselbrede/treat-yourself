@@ -496,6 +496,16 @@ button { font: inherit; cursor: pointer; }
 .scale-message { margin: .9rem 0 0; font-size: .88rem; line-height: 1.45; }
 .scale-remaining { margin: .45rem 0 0; font-size: .8rem; color: var(--ink-soft); }
 
+.scale-key {
+  margin-top: 1rem; padding: .7rem .85rem;
+  border: 1.5px dashed var(--etch-soft); border-radius: 14px;
+  font-size: .78rem; line-height: 1.45; color: var(--ink-soft);
+}
+.scale-key p { margin: 0; }
+.scale-key p + p { margin-top: .35rem; }
+.scale-key-goal { font-size: .88rem; color: var(--ink); }
+.scale-key strong { color: var(--pink-deep); }
+
 .scale-track.pulse { animation: pulse .5s ease; }
 @keyframes pulse {
   0%   { transform: scale(1); }
